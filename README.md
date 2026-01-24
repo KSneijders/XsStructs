@@ -37,13 +37,14 @@ void main() {
     vector p1 = new("Player");
     vector p2 = new("Player");
     
-    // 3. Set values on the instance
+    // 3. Set values on the instances
     structSetString(p1, "name", "MrKirby");
     structSetInt(p1, "score", 10);
    
     structSetString(p2, "name", "Bowser");
     structSetInt(p2, "score", 16);
     
+    // 4. Retrieve values from the instances
     xsChatData(structGetString(p1, "name") + ": " + structGetInt(p1, "score"));
     // MrKirby: 10
     xsChatData(structGetString(p2, "name") + ": " + structGetInt(p2, "score"));
@@ -73,10 +74,29 @@ _The prefix `|xx|` is necessary as chat output may suppress duplicates if there 
 
 # Using XsStructs
 
-## 1. Update default configuration
+## 1. Setting up the script
+
+### Using `include`
+
+1. Place the `structs.xs` file in your XS scripts folder:  
+   `C:\Users\<user>\Games\Age of Empires 2 DE\<steamId>\resources\_common\xs\`  
+   (Or any other folder in which AoE2 DE will look for scripts)
+
+2. Then add this to the top of your script:
+   ```cpp
+   include "structs.xs";
+   ```
+
+### Copy and paste the entire code
+
+Copy and paste the entire content of `structs.xs` at the top of your XS script.
+
+
+## 2. Update default configuration
 
 Because arrays are used internally, there's a configured max for most aspects of the script.
-You can update these before initializing the script to fit your needs.
+You can update these before initializing the script to fit your needs. 
+Make sure to update these defaults inside your `void main` function **before** initializing Xs Structs.
 
 The following values can be updated:
 
@@ -106,7 +126,7 @@ The maximum number of lines for the string buffer used by all printing functions
 Usually 200 is more than enough, but if you have exceptionally large or deeply nested structs, you might want to
 increase this value so printing doesn't get cut off.
 
-## 2. Initializing the script
+## 3. Initializing the script
 
 To use XsStructs, you need to call `initializeStructsScript` in your script's `main` function.
 This is necessary because the script needs to initialize internal arrays for storing the defined structures, instances
@@ -114,15 +134,17 @@ logging and error handling.
 
 ```cpp
 void main() {
+    /* Any configuration changes should be here */
+
     initializeStructsScript();
 }
 ```
 
 Note, if you do **not** define your structs in the `void main()` function, you most likely won't need to call this 
-function as there's a high-priority rule that runs to do this automatically. Unfortunately, this rule does not run
+function as there's a high-priority rule that runs to do this automatically. This rule does not run
 before the `void main()` function.
 
-## 3. Defining structs
+## 4. Defining structs
 
 To define a struct, you need to call `defineStruct` and provide a name for your struct.
 You can then define attributes for your struct using `defineStructAttribute`.
@@ -170,7 +192,7 @@ If you're not interested in printing the struct instances, you could replace any
 struct type with `TYPE_VECTOR`. The `struct` and `array` types only exist so that the printing functions can print
 them in a readable format.
 
-## 4. Instantiating structs
+## 5. Instantiating structs
 
 To create an instance of a struct, you need to call `new` and provide the name of the struct you want to create.
 
@@ -203,7 +225,7 @@ Or, if you want to check if a struct is a specific type, you can use the `isInst
 isInstance(p1, "Player"); // returns true
 ```
 
-## 5. Setting values on instances
+## 6. Setting values on instances
 
 To set a value on an instance, you need to call one of the `structSet<type>` functions. Where `<type>` is the type
 of the attribute you want to set.
@@ -213,7 +235,7 @@ structSetString(p1, "name", "MrKirby");
 structSetInt(p1, "score", 10);
 ```
 
-## 6. Reading values from instances
+## 7. Reading values from instances
 
 To read a value from an instance, you need to call one of the `structGet<type>` functions. Where `<type>` is the type
 of the attribute you want to read.
@@ -223,7 +245,7 @@ structGetString(p1, "name"); // returns "MrKirby"
 structGetInt(p1, "score"); // returns 10
 ```
 
-## 7. Error handling
+## 8. Error handling
 
 There's a simple error handling system in place. This can be used to silently handle errors that occur during runtime.
 The only error that will be printing directly in chat is when you've forgotten to initialize the script.
@@ -272,6 +294,7 @@ Especially the helper functions like `playerHasAbility` and `playerAddXp` show v
 remains when using structs.
 
 ```cpp
+include "structs.xs";
 
 void main() {
     initializeStructsScript();
