@@ -9,7 +9,7 @@
  * ##########################################################
  *
  * Created by MrKirby -- https://github.com/KSneijders/XsStructs
- * Version: 1.0.0 (2026-01-24)
+ * Version: 1.0.0 (2026-01-25)
  *
  * ######################## Credits #########################
  * XS-Check by Alian -- https://github.com/Divy1211/xs-check
