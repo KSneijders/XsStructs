@@ -21,7 +21,7 @@ To read more about these functions, continue reading below.
 ## Example usage
 
 The following example shows how a player struct is defined and used to store player name and score.
-You can copy and paste this code into your script to try it out.
+You can copy and paste this code into your script to try it out. Remember to set up XsStructs before attempting to run the code, you can copy and paste the entire file above the `void main` function to make it work quickly.
 
 ```cpp
 void main() {
@@ -76,7 +76,9 @@ _The prefix `|xx|` is necessary as chat output may suppress duplicates if there 
 
 ## 1. Setting up the script
 
-### Using `include`
+There's two ways of setting up XsStructs. You can use either option. The only advantage of the "include" method, is being able to replace the file more easily if there are any updates in the future.
+
+### Option A - Using `include`
 
 1. Place the `structs.xs` file in your XS scripts folder:  
    `C:\Users\<user>\Games\Age of Empires 2 DE\<steamId>\resources\_common\xs\`  
@@ -87,10 +89,9 @@ _The prefix `|xx|` is necessary as chat output may suppress duplicates if there 
    include "structs.xs";
    ```
 
-### Copy and paste the entire code
+### Option B - Copy and paste the entire code
 
 Copy and paste the entire content of `structs.xs` at the top of your XS script.
-
 
 ## 2. Update default configuration
 
