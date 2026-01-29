@@ -236,6 +236,8 @@ structSetString(p1, "name", "MrKirby");
 structSetInt(p1, "score", 10);
 ```
 
+When you want to set structs, use the `structSetVector` function. If you want to set an array, use the `structSetInt` function. 
+
 ## 7. Reading values from instances
 
 To read a value from an instance, you need to call one of the `structGet<type>` functions. Where `<type>` is the type
@@ -245,6 +247,8 @@ of the attribute you want to read.
 structGetString(p1, "name"); // returns "MrKirby"
 structGetInt(p1, "score"); // returns 10
 ```
+
+When you want to get structs, use the `structGetVector` function. If you want to get an array, use the `structGetInt` function. 
 
 ## 8. Error handling
 
