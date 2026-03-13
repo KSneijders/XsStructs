@@ -272,7 +272,7 @@ Use `structReadInstance(...)` to read an instance from a file.
 Keep in mind that inside the editor, the file is always called "default0"
 
 ```cpp
-xsOpenFile("..."); 
+xsOpenFile("MyScenarioName"); 
 vector p1 = structReadInstance("Player");
 vector p2 = structReadInstance("Player");
 xsCloseFile();
