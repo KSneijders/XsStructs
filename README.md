@@ -250,7 +250,37 @@ structGetInt(p1, "score"); // returns 10
 
 When you want to get structs, use the `structGetVector` function. If you want to get an array, use the `structGetInt` function. 
 
-## 8. Error handling
+## 8. File I/O
+
+Struct instances can be saved to and loaded from `.xsdat` files.
+Make sure to open and close the files, it works the same as writing any other value to a file. 
+
+### Writing
+
+Use `structWriteInstance(...)` to write an instance to a file.
+
+```cpp
+xsCreateFile(false);
+structWriteInstance(p1);
+structWriteInstance(p2);
+xsCloseFile();
+```
+
+### Reading
+
+Use `structReadInstance(...)` to read an instance from a file. 
+Keep in mind that inside the editor, the file is always called "default0"
+
+```cpp
+xsOpenFile("..."); 
+vector p1 = structReadInstance("Player");
+vector p2 = structReadInstance("Player");
+xsCloseFile();
+```
+
+The struct name is required so the script knows how to interpret the data. **The read order must match the write order**.
+
+## 9. Error handling
 
 There's a simple error handling system in place. This can be used to silently handle errors that occur during runtime.
 The only error that will be printing directly in chat is when you've forgotten to initialize the script.
