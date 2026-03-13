@@ -98,6 +98,7 @@ bool bufferLine(string line = "") {
 }
 
 void printBuffer() {
+    static int count = 0;
     string line = "";
     for(i = 0; < xsArrayGetSize(STRUCT_PRINT_BUFFER)) {
         line = xsArrayGetString(STRUCT_PRINT_BUFFER, i);
@@ -110,10 +111,11 @@ void printBuffer() {
             prefix = "0" + prefix;
         }
 
-        xsChatData("|" + prefix + "| " + line);
+        xsChatData("|" + count + prefix + "| " + line);
     }
 
     clearPrintBuffer();
+    count++;
 }
 
 int findIndexString(int arrayId = -1, string match = "") {
@@ -391,6 +393,10 @@ mutable bool printFromXsArray(int valueRefArray = -1, int attributeType = -1, st
         case TYPE_VECTOR: { str = "" + xsArrayGetVector(valueRefArray, getIndex); }
         case TYPE_STRUCT: {
             vector struct = xsArrayGetVector(valueRefArray, getIndex);
+            if (struct == cInvalidVector) {
+                buffer("null");
+                return (true);
+            }
             if (isValidInstance(struct) == false) {
                 return (true);
             }
@@ -738,6 +744,7 @@ bool structSetVector(vector instance = cInvalidVector, string attrName = "", vec
 mutable bool writeStructInstanceToFile(vector instance = cInvalidVector) {
     // Overwritten later - Exists so this function and `writeValueToFile` can call each other recursively
     // XS needs functions to exist before the one you call them in.
+    return (false);
 }
 
 mutable vector readStructInstanceFromFile(string structName = "") {
@@ -779,6 +786,10 @@ mutable bool writeValueToFile(int valueRefArray = -1, int attributeType = -1, in
         }
         case TYPE_STRUCT: {
             vector nestedInst = xsArrayGetVector(valueRefArray, index);
+            if (nestedInst == cInvalidVector) {
+                xsWriteString("");
+                return (true);
+            }
             if (isValidInstance(nestedInst) == false) {
                 MOST_RECENT_ORIGIN = "writeValueToFile(<type_struct>)";
                 return (false);
@@ -871,6 +882,10 @@ int readArrayFromFile(int elementType = -1) {
 }
 
 mutable vector readStructInstanceFromFile(string structName = "") {
+    if (structName == "") {
+        return (cInvalidVector);
+    }
+
     int structIndex = findStructIndex(structName);
 
     if (structIndex == -1) {
