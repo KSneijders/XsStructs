@@ -741,13 +741,13 @@ bool structSetVector(vector instance = cInvalidVector, string attrName = "", vec
     return (true);
 }
 
-mutable bool writeStructInstanceToFile(vector instance = cInvalidVector) {
+mutable bool structWriteInstance(vector instance = cInvalidVector) {
     // Overwritten later - Exists so this function and `writeValueToFile` can call each other recursively
     // XS needs functions to exist before the one you call them in.
     return (false);
 }
 
-mutable vector readStructInstanceFromFile(string structName = "") {
+mutable vector structReadInstance(string structName = "") {
     // Overwritten later - Exists so this function and `readArrayFromFile` can call each other recursively
     // XS needs functions to exist before the one you call them in.
     return (cInvalidVector);
@@ -795,7 +795,7 @@ mutable bool writeValueToFile(int valueRefArray = -1, int attributeType = -1, in
                 return (false);
             }
             xsWriteString(xsArrayGetString(STRUCT_NAME_ARRAY, toStructIndex(nestedInst)));
-            return (writeStructInstanceToFile(nestedInst));
+            return (structWriteInstance(nestedInst));
         }
     }
 
@@ -815,9 +815,9 @@ mutable bool writeValueToFile(int valueRefArray = -1, int attributeType = -1, in
     return (false);
 }
 
-mutable bool writeStructInstanceToFile(vector instance = cInvalidVector) {
+mutable bool structWriteInstance(vector instance = cInvalidVector) {
     if (isValidInstance(instance) == false) {
-        MOST_RECENT_ORIGIN = "writeStructInstanceToFile("+getInstanceReferenceAsString(instance)+")";
+        MOST_RECENT_ORIGIN = "structWriteInstance("+getInstanceReferenceAsString(instance)+")";
         return (false);
     }
 
@@ -861,7 +861,7 @@ int readArrayFromFile(int elementType = -1) {
             case TYPE_FLOAT:  { xsArraySetFloat(arr, i, xsReadFloat()); }
             case TYPE_STRING: { xsArraySetString(arr, i, xsReadString()); }
             case TYPE_VECTOR: { xsArraySetVector(arr, i, xsReadVector()); }
-            case TYPE_STRUCT: { xsArraySetVector(arr, i, readStructInstanceFromFile(xsReadString())); }
+            case TYPE_STRUCT: { xsArraySetVector(arr, i, structReadInstance(xsReadString())); }
         }
 
         if (elementType == TYPE_BOOL) {
@@ -881,7 +881,7 @@ int readArrayFromFile(int elementType = -1) {
     return (arr);
 }
 
-mutable vector readStructInstanceFromFile(string structName = "") {
+mutable vector structReadInstance(string structName = "") {
     if (structName == "") {
         return (cInvalidVector);
     }
@@ -890,13 +890,13 @@ mutable vector readStructInstanceFromFile(string structName = "") {
 
     if (structIndex == -1) {
         MOST_RECENT_ERROR = "UNKNOWN STRUCT ["+structName+"]";
-        MOST_RECENT_ORIGIN = "readStructInstanceFromFile('"+structName+"')";
+        MOST_RECENT_ORIGIN = "structReadInstance('"+structName+"')";
         return (cInvalidVector);
     }
 
     vector instance = new(structName);
     if (instance == cInvalidVector) {
-        MOST_RECENT_ORIGIN = "readStructInstanceFromFile('"+structName+"') -> new('"+structName+"')";
+        MOST_RECENT_ORIGIN = "structReadInstance('"+structName+"') -> new('"+structName+"')";
         return (cInvalidVector);
     }
 
@@ -916,7 +916,7 @@ mutable vector readStructInstanceFromFile(string structName = "") {
             case TYPE_FLOAT:  { xsArraySetFloat(valueRefArray, 0, xsReadFloat()); }
             case TYPE_STRING: { xsArraySetString(valueRefArray, 0, xsReadString()); }
             case TYPE_VECTOR: { xsArraySetVector(valueRefArray, 0, xsReadVector()); }
-            case TYPE_STRUCT: { xsArraySetVector(valueRefArray, 0, readStructInstanceFromFile(xsReadString())); }
+            case TYPE_STRUCT: { xsArraySetVector(valueRefArray, 0, structReadInstance(xsReadString())); }
         }
 
         if (attributeType == TYPE_BOOL) {
