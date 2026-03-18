@@ -9,7 +9,7 @@
  * ##########################################################
  *
  * Created by MrKirby -- https://github.com/KSneijders/XsStructs
- * Version: 1.1.0 (2026-03-13)
+ * Version: 1.1.1 (2026-03-18)
  *
  * ######################## Credits #########################
  * XS-Check by Alian -- https://github.com/Divy1211/xs-check
@@ -74,6 +74,7 @@ void clearPrintBuffer() {
     STRUCT_PRINT_BUFFER_POINTER = 0;
 }
 
+/** @allow_discard */
 bool buffer(string str = "") {
     if (STRUCT_PRINT_BUFFER_POINTER > (STRUCT_PRINT_BUFFER_SIZE - 1)) {
         MOST_RECENT_ERROR = "PRINT BUFFER FULL";
@@ -86,6 +87,7 @@ bool buffer(string str = "") {
     return (true);
 }
 
+/** @allow_discard */
 bool bufferLine(string line = "") {
     bool success = buffer(line);
     if (success == false) {
@@ -142,6 +144,7 @@ int findStructIndex(string structName = "") {
     return (findIndexString(STRUCT_NAME_ARRAY, structName));
 }
 
+/** @allow_discard */
 bool defineStruct(string name = "") {
     if (STRUCTS_INITIALIZED == false) {
         xsChatData("The `initializeStructsScript()` has to be called before defining a struct!");
@@ -166,6 +169,7 @@ bool defineStruct(string name = "") {
     return (true);
 }
 
+/** @allow_discard */
 bool defineStructAttribute(string structName = "", string structAttribute = "", int structType = -1) {
     int structIndex = findStructIndex(structName);
     if (structIndex == -1) {
@@ -310,7 +314,7 @@ void printStructDefinition(string structName = "") {
     printBuffer();
 }
 
-// This function exists so I don't have to repeat xsc-ignore :)
+/** This function exists so I don't have to repeat xsc-ignore :) */
 int toStructIndex(vector instance = cInvalidVector) {
     // xsc-ignore: NumDownCast
     int structIndex = xsVectorGetX(instance);
@@ -318,7 +322,7 @@ int toStructIndex(vector instance = cInvalidVector) {
     return (structIndex);
 }
 
-// This function exists so I don't have to repeat xsc-ignore :)
+/** This function exists so I don't have to repeat xsc-ignore :) */
 int toInstanceIndex(vector instance = cInvalidVector) {
     // xsc-ignore: NumDownCast
     int instanceIndex = xsVectorGetY(instance);
@@ -372,6 +376,7 @@ mutable void printStructInstance(vector instance = cInvalidVector, string prefix
     // XS needs functions to exist before the one you call them in.
 }
 
+/** @allow_discard */
 mutable bool printFromXsArray(int valueRefArray = -1, int attributeType = -1, string prefix = "", int getIndex = 0) {
     if (valueRefArray == -1) {
         MOST_RECENT_ERROR = "INVALID VALUE REF ARRAY";
@@ -517,6 +522,7 @@ mutable vector new(string structName = "") {
     return (v);
 }
 
+/** @allow_discard */
 bool deleteInstance(vector instance = cInvalidVector) {
     bool isValid = isValidInstance(instance);
     if (isValid == false) {
@@ -629,6 +635,7 @@ string structGetString(vector instance = cInvalidVector, string attrName = "") {
     return (xsArrayGetString(getValueArrayRefAfterValidation(), 0));
 }
 
+/** @allow_discard */
 bool structSetString(vector instance = cInvalidVector, string attrName = "", string value = "") {
     bool success = validateInstanceAttribute(instance, attrName, TYPE_STRING);
     if (success == false) {
@@ -654,6 +661,7 @@ int structGetInt(vector instance = cInvalidVector, string attrName = "") {
     return (xsArrayGetInt(getValueArrayRefAfterValidation(), 0));
 }
 
+/** @allow_discard */
 bool structSetInt(vector instance = cInvalidVector, string attrName = "", int value = -1) {
     bool success = validateInstanceAttribute(instance, attrName, TYPE_INT);
     if (success == false) {
@@ -679,6 +687,7 @@ float structGetFloat(vector instance = cInvalidVector, string attrName = "") {
     return (xsArrayGetFloat(getValueArrayRefAfterValidation(), 0));
 }
 
+/** @allow_discard */
 bool structSetFloat(vector instance = cInvalidVector, string attrName = "", float value = -1.0) {
     bool success = validateInstanceAttribute(instance, attrName, TYPE_FLOAT);
     if (success == false) {
@@ -704,6 +713,7 @@ bool structGetBool(vector instance = cInvalidVector, string attrName = "") {
     return (xsArrayGetBool(getValueArrayRefAfterValidation(), 0));
 }
 
+/** @allow_discard */
 bool structSetBool(vector instance = cInvalidVector, string attrName = "", bool value = false) {
     bool success = validateInstanceAttribute(instance, attrName, TYPE_BOOL);
     if (success == false) {
@@ -729,6 +739,7 @@ vector structGetVector(vector instance = cInvalidVector, string attrName = "") {
     return (xsArrayGetVector(getValueArrayRefAfterValidation(), 0));
 }
 
+/** @allow_discard */
 bool structSetVector(vector instance = cInvalidVector, string attrName = "", vector value = cInvalidVector) {
     bool success = validateInstanceAttribute(instance, attrName, TYPE_VECTOR);
     if (success == false) {
@@ -741,6 +752,7 @@ bool structSetVector(vector instance = cInvalidVector, string attrName = "", vec
     return (true);
 }
 
+/** @allow_discard */
 mutable bool structWriteInstance(vector instance = cInvalidVector) {
     // Overwritten later - Exists so this function and `writeValueToFile` can call each other recursively
     // XS needs functions to exist before the one you call them in.
@@ -753,6 +765,7 @@ mutable vector structReadInstance(string structName = "") {
     return (cInvalidVector);
 }
 
+/** @allow_discard */
 mutable bool writeValueToFile(int valueRefArray = -1, int attributeType = -1, int index = 0) {
     if (valueRefArray == -1) {
         MOST_RECENT_ERROR = "INVALID VALUE REF ARRAY IN FILE WRITE";
@@ -815,6 +828,7 @@ mutable bool writeValueToFile(int valueRefArray = -1, int attributeType = -1, in
     return (false);
 }
 
+/** @allow_discard */
 mutable bool structWriteInstance(vector instance = cInvalidVector) {
     if (isValidInstance(instance) == false) {
         MOST_RECENT_ORIGIN = "structWriteInstance("+getInstanceReferenceAsString(instance)+")";
