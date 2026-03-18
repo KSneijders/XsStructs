@@ -189,9 +189,12 @@ So if you'd want strings nested 4 deep, you'd use `403` where normally you'd use
 
 #### Type technicalities
 
-If you're not interested in printing the struct instances, you could replace any `array` type with `TYPE_INT` and any
-struct type with `TYPE_VECTOR`. The `struct` and `array` types only exist so that the printing functions can print
-them in a readable format.
+Type definitions for structs and arrays use the `vector` and `int` getters and setters repsectively.
+This means that you can use the `vector` and `int` getters and setters to set and get values from structs and arrays.
+
+Whilst getters and setters would function for structs if defined using `TYPE_VECTOR` instead of `TYPE_STRUCT`, both
+file I/O and printing struct instances will behave as if it was a plain vector. The same goes for arrays when defined
+as `TYPE_INT`.
 
 ## 5. Instantiating structs
 
